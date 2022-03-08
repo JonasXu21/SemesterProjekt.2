@@ -41,19 +41,11 @@ public class Stopwords {
 
         this.searchWord = searhWord;
         String[] words = searchWord.split("\\W+");
-
-
         List<String> wordslist = new ArrayList<>(Arrays.asList(words));
 
-        System.out.println(wordslist);
-        System.out.println(TreesetStopwords);
 
-        for (int i = 0; i < wordslist.size(); i++) {
-                if(wordslist.get(i).equals(TreesetStopwords.toArray()[i])){
-                    wordslist.remove(i);
-                }
 
-            }
+        wordslist.removeAll(TreesetStopwords);
         System.out.println(wordslist);
 
     }
