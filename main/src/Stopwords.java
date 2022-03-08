@@ -17,6 +17,7 @@ private String searchWord;
       return this.searchWord=searchWord;
     }
 
+
     public String displayString(){
         return searchWord;
 
