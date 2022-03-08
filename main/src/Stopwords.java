@@ -12,8 +12,8 @@ private String searchWord;
 
 
 
-    public String displayString(){
-        return searchWord;
+    public void displayString(){
+        System.out.println(searchWord + "removed from the list ");
     }
 
     public void displayRemovedWords(){
