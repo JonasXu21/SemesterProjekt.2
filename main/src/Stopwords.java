@@ -1,6 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
 public class Stopwords {
@@ -11,9 +9,44 @@ public class Stopwords {
 
     public Stopwords() {
         this.searchWord = searchWord;
-        TreesetStopwords = new TreeSet<>();
+        //TreesetStopwords = new TreeSet<>();
 
     }
+
+    public static ArrayList<Stopword> getAllStopwords(){
+        ArrayList<Stopword> stopwordList;
+
+        try {
+        String jdbcURL = "jdbc:postgresql://localhost:5432/2semproject";
+        String username = "postgres";
+        String password = "password";
+
+
+            Connection connection = DriverManager.getConnection(jdbcURL,username,password);
+            System.out.println("Connected to database");
+
+            Statement statement = connection.createStatement();
+
+            String sql = "SELECT * FROM \"StopWords\"";
+            ResultSet rst;
+            rst = statement.executeQuery(sql);
+            stopwordList = new ArrayList<>();
+
+            while (rst.next()){
+                Stopword stopword = new Stopword(rst.getString("\"StopWords\""));
+                stopwordList.add(stopword);
+            }
+            connection.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error connecting to database");
+            e.printStackTrace();
+        }
+
+            return null;
+            }
+
+
 
 
     public String addSearchword(String searchWord) {
@@ -33,7 +66,34 @@ public class Stopwords {
     }
 
     public void addStopword(String stopword) {
-        TreesetStopwords.add(stopword);
+        //TreesetStopwords.add(stopword);
+        String jdbcURL = "jdbc:postgresql://localhost:5432/2semproject";
+        String username = "postgres";
+        String password = "password";
+
+        try {
+            Connection connection = DriverManager.getConnection(jdbcURL,username,password);
+            System.out.println("Connected to database");
+
+            String sql = "INSERT INTO \"StopWords\" (\"StopWords\")"
+                    + "VALUES ('" + stopword + "') ON CONFLICT DO NOTHING";
+
+            Statement statement = connection.createStatement();
+
+            int rows = statement.executeUpdate(sql);
+            if (rows > 0){
+                System.out.println("A new stopword has been added");
+            }
+
+            connection.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error connecting to database");
+            e.printStackTrace();
+        }
+
+
+
     }
 
     public void removeStopword(String stopword) {
@@ -50,7 +110,7 @@ public class Stopwords {
 
 
 
-            wordslist.removeAll(TreesetStopwords);
+            wordslist.removeAll(getAllStopwords());
 
             for ( String str: wordslist){
                 result += str+ " ";
@@ -62,13 +122,16 @@ public class Stopwords {
 
     public static void main(String[] args) {
 
-        //Stopwords sw = new Stopwords();
-        //sw.addStopword("more");
-        //sw.addStopword("where");
-        //System.out.println(sw.compareString("more where products on top of the world"));
+        Stopwords sw = new Stopwords();
+        sw.addStopword("more");
+        sw.addStopword("more");
+        sw.addStopword("multiple");
+        sw.addStopword("multiple");
+        sw.addStopword("where");
+        System.out.println(sw.compareString("more where products on top of the world"));
 
 
-        String jdbcURL = "jdbc:postgresql://localhost:5432/2semproject";
+   /*     String jdbcURL = "jdbc:postgresql://localhost:5432/2semproject";
         String username = "postgres";
         String password = "password";
 
@@ -76,12 +139,17 @@ public class Stopwords {
             Connection connection = DriverManager.getConnection(jdbcURL,username,password);
             System.out.println("Connected to database");
 
+            String sql = ""
+
             connection.close();
 
         } catch (SQLException e) {
             System.out.println("Error connecting to database");
             e.printStackTrace();
         }
+*/
+
+
 
 
     }
