@@ -37,17 +37,22 @@ public class Stopwords {
         TreesetStopwords.remove(stopword);
     }
 
-    public void compareString(String searhWord) {
+    public String compareString(String searhWord) {
 
-        this.searchWord = searhWord;
-        String[] words = searchWord.split("\\W+");
-        List<String> wordslist = new ArrayList<>(Arrays.asList(words));
+            String result = "";
+
+            this.searchWord = searhWord;
+            String[] words = searchWord.split("\\W+");
+            List<String> wordslist = new ArrayList<>(Arrays.asList(words));
 
 
+    
+            wordslist.removeAll(TreesetStopwords);
 
-        wordslist.removeAll(TreesetStopwords);
-        System.out.println(wordslist);
-
+            for ( String str: wordslist){
+                result += str+ " ";
+            }
+            return  result;
     }
 
 
@@ -61,7 +66,7 @@ public class Stopwords {
 
 
 
-        sw.compareString("more where products");
+        System.out.println(sw.compareString("more where products on top of the world"));
 
 
     }
