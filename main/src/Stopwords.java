@@ -1,3 +1,6 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.*;
 
 public class Stopwords {
@@ -46,7 +49,7 @@ public class Stopwords {
             List<String> wordslist = new ArrayList<>(Arrays.asList(words));
 
 
-    
+
             wordslist.removeAll(TreesetStopwords);
 
             for ( String str: wordslist){
@@ -59,14 +62,26 @@ public class Stopwords {
 
     public static void main(String[] args) {
 
-        Stopwords sw = new Stopwords();
+        //Stopwords sw = new Stopwords();
+        //sw.addStopword("more");
+        //sw.addStopword("where");
+        //System.out.println(sw.compareString("more where products on top of the world"));
 
-        sw.addStopword("more");
-        sw.addStopword("where");
 
+        String jdbcURL = "jdbc:postgresql://localhost:5432/2semproject";
+        String username = "postgres";
+        String password = "password";
 
+        try {
+            Connection connection = DriverManager.getConnection(jdbcURL,username,password);
+            System.out.println("Connected to database");
 
-        System.out.println(sw.compareString("more where products on top of the world"));
+            connection.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error connecting to database");
+            e.printStackTrace();
+        }
 
 
     }
