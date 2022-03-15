@@ -13,38 +13,28 @@ public class Stopwords {
 
     }
 
-    public static ArrayList<Stopword> getAllStopwords(){
-        ArrayList<Stopword> stopwordList;
-
-        try {
-        String jdbcURL = "jdbc:postgresql://localhost:5432/2semproject";
-        String username = "postgres";
-        String password = "password";
+    public static  Collection<Stopword> getAll() {
+        Collection<Stopword> stopwordList = new ArrayList<>();
+        String sql = "SELECT * FROM \"StopWords\"";
 
 
-            Connection connection = DriverManager.getConnection(jdbcURL,username,password);
-            System.out.println("Connected to database");
+        JdbcConnection.getConnection().ifPresent(conn -> {
+            try (Statement statement = conn.createStatement();
+                 ResultSet resultSet = statement.executeQuery(sql)) {
 
-            Statement statement = connection.createStatement();
+                while (resultSet.next()){
+                    Stopword stopword = new Stopword(resultSet.getString("\"StopWords\""));
+                    stopwordList.add(stopword);
+                }
 
-            String sql = "SELECT * FROM \"StopWords\"";
-            ResultSet rst;
-            rst = statement.executeQuery(sql);
-            stopwordList = new ArrayList<>();
-
-            while (rst.next()){
-                Stopword stopword = new Stopword(rst.getString("\"StopWords\""));
-                stopwordList.add(stopword);
+            } catch (SQLException e) {
+                System.out.println("Error connecting to database");
+                e.printStackTrace();
             }
-            connection.close();
+        });
 
-        } catch (SQLException e) {
-            System.out.println("Error connecting to database");
-            e.printStackTrace();
-        }
-
-            return null;
-            }
+        return stopwordList;
+    }
 
 
 
@@ -109,8 +99,7 @@ public class Stopwords {
             List<String> wordslist = new ArrayList<>(Arrays.asList(words));
 
 
-
-            wordslist.removeAll(getAllStopwords());
+            wordslist.removeAll(getAll());
 
             for ( String str: wordslist){
                 result += str+ " ";
@@ -124,10 +113,6 @@ public class Stopwords {
 
         Stopwords sw = new Stopwords();
         sw.addStopword("more");
-        sw.addStopword("more");
-        sw.addStopword("multiple");
-        sw.addStopword("multiple");
-        sw.addStopword("where");
         System.out.println(sw.compareString("more where products on top of the world"));
 
 
