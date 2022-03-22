@@ -1,3 +1,5 @@
+package StopWordsPackage;
+
 public class Stopword {
 
     String stopword;
