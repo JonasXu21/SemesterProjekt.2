@@ -55,7 +55,7 @@ public class Stopwords {
 
 
     public static void addStopword(String stopword) {
-        
+
         String jdbcURL = "jdbc:postgresql://localhost:5432/2semproject";
         String username = "postgres";
         String password = "password";
@@ -90,6 +90,10 @@ public class Stopwords {
         //TreesetStopwords.remove(stopword);
     }
 
+
+
+    //HEADER: this is an old method, for our own implementation, the other groups are providing a tokenized list, so
+    //we dont have to tokenize our own.
    /* public String compareString(String searhWord) {
 
             String result = "";
