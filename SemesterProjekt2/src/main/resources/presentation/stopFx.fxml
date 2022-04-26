@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="presentation.Controller"
+          alignment="CENTER" vgap="10" hgap="10">
+    <TextField fx:id="name" GridPane.rowIndex="0" GridPane.columnIndex="1"
+               onKeyReleased="#handleKeyRelease"/>
+    <Button fx:id="searchButton" text="search" GridPane.columnIndex="1" GridPane.rowIndex="1"
+            onAction="#onButtonClick"/>
+    <Button fx:id="historicButton" text="historic" GridPane.columnIndex="1" GridPane.rowIndex="2"
+            onAction="#onButtonClick"/>
+    <CheckBox fx:id="ourCheckBox" text="Select after saying search or historic " GridPane.columnIndex="3"
+              GridPane.rowIndex="1"
+              GridPane.columnSpan="2" onAction="#handleChange" />
+    <Label fx:id="myLabel" text="nothing is happening here " GridPane.columnIndex="4" GridPane.rowIndex="2"/>
+</GridPane>
